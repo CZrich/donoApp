@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="1120" viewBox="0 0 1440 1120" role="img" aria-labelledby="title description">
+  <title id="title">Wireframes del flujo principal de AlimentoRed</title>
+  <desc id="description">Nueve wireframes de baja fidelidad para acceso, donante, organización, reserva, historial y perfil.</desc>
+  <defs>
+    <style>
+      .bg{fill:#f3f4f6}.phone{fill:#fff;stroke:#475569;stroke-width:2}.bar{fill:#e2e8f0}.line{fill:#cbd5e1}.dark{fill:#64748b}.button{fill:#94a3b8}.label{font-family:Arial,sans-serif;font-size:15px;font-weight:700;fill:#334155}.small{font-family:Arial,sans-serif;font-size:11px;fill:#475569}.flow{stroke:#64748b;stroke-width:2;fill:none;marker-end:url(#arrow)}
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#64748b"/></marker>
+    <g id="phone">
+      <rect class="phone" width="240" height="390" rx="22"/>
+      <rect class="bar" x="84" y="10" width="72" height="8" rx="4"/>
+    </g>
+  </defs>
+  <rect class="bg" width="1440" height="1120"/>
+  <text x="60" y="54" class="label" style="font-size:26px">AlimentoRed · Wireframes del flujo principal</text>
+
+  <g transform="translate(60 90)"><use href="#phone"/><text x="18" y="48" class="label">1. Acceso</text><circle cx="120" cy="100" r="35" class="line"/><rect x="28" y="155" width="184" height="34" rx="6" class="line"/><rect x="28" y="201" width="184" height="34" rx="6" class="line"/><rect x="28" y="258" width="184" height="42" rx="8" class="button"/><text x="81" y="284" class="small">INICIAR SESIÓN</text><text x="72" y="337" class="small">Crear una cuenta</text></g>
+  <g transform="translate(350 90)"><use href="#phone"/><text x="18" y="48" class="label">2. Registro</text><text x="22" y="82" class="small">¿Cómo participarás?</text><rect x="22" y="98" width="92" height="74" rx="8" class="button"/><rect x="126" y="98" width="92" height="74" rx="8" class="line"/><rect x="22" y="194" width="196" height="30" rx="5" class="line"/><rect x="22" y="234" width="196" height="30" rx="5" class="line"/><rect x="22" y="274" width="196" height="30" rx="5" class="line"/><rect x="22" y="324" width="196" height="40" rx="8" class="button"/></g>
+  <g transform="translate(640 90)"><use href="#phone"/><text x="18" y="48" class="label">3. Inicio donante</text><rect x="18" y="68" width="204" height="70" rx="10" class="dark"/><rect x="18" y="154" width="204" height="48" rx="8" class="button"/><text x="57" y="184" class="small">+ PUBLICAR DONACIÓN</text><text x="18" y="230" class="small">Publicaciones recientes</text><rect x="18" y="245" width="204" height="52" rx="6" class="line"/><rect x="18" y="307" width="204" height="52" rx="6" class="line"/><rect x="0" y="362" width="240" height="28" class="bar"/></g>
+  <g transform="translate(930 90)"><use href="#phone"/><text x="18" y="48" class="label">4. Publicar</text><rect x="20" y="67" width="200" height="76" rx="8" class="line"/><rect x="20" y="157" width="200" height="28" rx="4" class="line"/><rect x="20" y="195" width="96" height="28" rx="4" class="line"/><rect x="124" y="195" width="96" height="28" rx="4" class="line"/><rect x="20" y="233" width="200" height="28" rx="4" class="line"/><rect x="20" y="271" width="200" height="28" rx="4" class="line"/><rect x="20" y="326" width="200" height="40" rx="8" class="button"/></g>
+
+  <path d="M300 285 H340" class="flow"/><path d="M590 285 H630" class="flow"/><path d="M880 285 H920" class="flow"/>
+
+  <g transform="translate(60 590)"><use href="#phone"/><text x="18" y="48" class="label">5. Inicio organización</text><rect x="18" y="68" width="204" height="54" rx="9" class="dark"/><rect x="18" y="139" width="204" height="34" rx="7" class="line"/><text x="18" y="203" class="small">Donaciones cercanas</text><rect x="18" y="217" width="204" height="60" rx="7" class="line"/><rect x="18" y="287" width="204" height="60" rx="7" class="line"/><rect x="0" y="362" width="240" height="28" class="bar"/></g>
+  <g transform="translate(350 590)"><use href="#phone"/><text x="18" y="48" class="label">6. Listado y filtros</text><rect x="18" y="65" width="204" height="32" rx="7" class="line"/><rect x="18" y="108" width="58" height="24" rx="12" class="button"/><rect x="84" y="108" width="58" height="24" rx="12" class="line"/><rect x="150" y="108" width="72" height="24" rx="12" class="line"/><rect x="18" y="150" width="204" height="82" rx="7" class="line"/><rect x="18" y="242" width="204" height="82" rx="7" class="line"/><rect x="18" y="334" width="204" height="38" rx="7" class="line"/></g>
+  <g transform="translate(640 590)"><use href="#phone"/><text x="18" y="48" class="label">7. Detalle y reserva</text><rect x="18" y="64" width="204" height="108" rx="9" class="line"/><rect x="18" y="188" width="130" height="14" rx="4" class="dark"/><rect x="18" y="213" width="204" height="10" rx="4" class="line"/><rect x="18" y="231" width="180" height="10" rx="4" class="line"/><rect x="18" y="260" width="204" height="46" rx="7" class="bar"/><rect x="18" y="326" width="204" height="42" rx="8" class="button"/></g>
+  <g transform="translate(930 590)"><use href="#phone"/><text x="18" y="48" class="label">8. Historial</text><rect x="18" y="68" width="204" height="76" rx="9" class="dark"/><rect x="18" y="162" width="62" height="24" rx="12" class="button"/><rect x="88" y="162" width="62" height="24" rx="12" class="line"/><rect x="18" y="203" width="204" height="60" rx="7" class="line"/><rect x="18" y="273" width="204" height="60" rx="7" class="line"/><rect x="0" y="362" width="240" height="28" class="bar"/></g>
+
+  <path d="M300 785 H340" class="flow"/><path d="M590 785 H630" class="flow"/><path d="M880 785 H920" class="flow"/>
+
+  <g transform="translate(1220 340)"><use href="#phone"/><text x="18" y="48" class="label">9. Perfil</text><circle cx="120" cy="104" r="38" class="line"/><rect x="34" y="158" width="172" height="16" rx="4" class="dark"/><rect x="22" y="201" width="196" height="32" rx="5" class="line"/><rect x="22" y="243" width="196" height="32" rx="5" class="line"/><rect x="22" y="285" width="196" height="32" rx="5" class="line"/><rect x="22" y="336" width="196" height="32" rx="7" class="button"/></g>
+  <text x="60" y="1060" class="small" style="font-size:14px">Baja fidelidad: valida estructura, jerarquía y recorridos antes de aplicar color, tipografía e imágenes.</text>
+</svg>

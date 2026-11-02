@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Prototipo navegable de alta fidelidad para AlimentoRed">
+  <title>AlimentoRed · Prototipo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="prototype-bar">
+    <div><strong>AlimentoRed</strong><span>Prototipo Fase 6</span></div>
+    <nav aria-label="Pantallas del prototipo">
+      <button data-screen="welcome" class="active">Acceso</button>
+      <button data-screen="register">Registro</button>
+      <button data-screen="donor-home">Donante</button>
+      <button data-screen="publish">Publicar</button>
+      <button data-screen="org-home">Organización</button>
+      <button data-screen="donations">Donaciones</button>
+      <button data-screen="detail">Detalle</button>
+      <button data-screen="history">Impacto</button>
+      <button data-screen="profile">Perfil</button>
+    </nav>
+  </header>
+
+  <main class="stage">
+    <section class="device" aria-live="polite">
+      <div class="status-bar"><span>9:41</span><span>● ● ●</span></div>
+
+      <article class="screen active welcome-screen" data-screen-panel="welcome">
+        <div class="hero-mark" aria-hidden="true">↗</div>
+        <p class="eyebrow light">Cada alimento cuenta</p>
+        <h1>Conectamos excedentes con mesas que los necesitan.</h1>
+        <p class="hero-copy">Publicá o encontrá donaciones de alimentos de manera rápida, responsable y cercana.</p>
+        <div class="auth-card">
+          <label>Correo electrónico<input type="email" value="demo@alimentored.pe"></label>
+          <label>Contraseña<input type="password" value="12345678"></label>
+          <button class="primary wide" data-go="donor-home">Iniciar sesión</button>
+          <button class="text-button" data-go="register">Crear una cuenta</button>
+        </div>
+      </article>
+
+      <article class="screen" data-screen-panel="register">
+        <div class="page-head"><button class="back" data-go="welcome" aria-label="Volver">←</button><div><span class="eyebrow">Paso 1 de 2</span><h2>Creá tu cuenta</h2></div></div>
+        <p class="muted">Elegí cómo vas a participar. Tu experiencia se adaptará a este rol.</p>
+        <div class="role-grid">
+          <button class="role-card selected"><span class="role-icon">⌂</span><strong>Donante</strong><small>Publico alimentos</small></button>
+          <button class="role-card"><span class="role-icon">◎</span><strong>Organización</strong><small>Recibo donaciones</small></button>
+        </div>
+        <div class="form-stack">
+          <label>Nombre completo<input value="Lucía Mendoza"></label>
+          <label>Correo electrónico<input value="lucia@ejemplo.pe"></label>
+          <label>Teléfono<input value="987 654 321"></label>
+          <label>Contraseña<input type="password" value="12345678"></label>
+        </div>
+        <button class="primary wide" data-go="donor-home">Continuar</button>
+        <p class="legal">Al continuar, aceptás publicar información verdadera y usar responsablemente la plataforma.</p>
+      </article>
+
+      <article class="screen" data-screen-panel="donor-home">
+        <div class="home-head"><div><span class="eyebrow">Buen día, Lucía</span><h2>Tu aporte puede llegar más lejos</h2></div><button class="avatar" data-go="profile">LM</button></div>
+        <div class="impact-banner"><span>Impacto acumulado</span><strong>42 kg</strong><small>de alimentos entregados</small><div class="impact-row"><b>8 donaciones</b><b>3 organizaciones</b></div></div>
+        <button class="primary wide action" data-go="publish">＋ Publicar una donación</button>
+        <div class="section-title"><h3>Publicaciones recientes</h3><button data-go="history">Ver todas</button></div>
+        <div class="donation-card"><div class="food-photo vegetables"></div><div><span class="badge reserved">Reservada</span><h4>Canasta de verduras</h4><p>12 kg · Miraflores</p><small>Recojo hasta hoy, 7:00 p. m.</small></div></div>
+        <div class="donation-card"><div class="food-photo bread"></div><div><span class="badge available">Disponible</span><h4>Pan del día</h4><p>30 unidades · Surquillo</p><small>Recojo hasta mañana</small></div></div>
+        <nav class="bottom-nav"><button class="current">⌂<span>Inicio</span></button><button data-go="history">▤<span>Historial</span></button><button data-go="profile">○<span>Perfil</span></button></nav>
+      </article>
+
+      <article class="screen" data-screen-panel="publish">
+        <div class="page-head"><button class="back" data-go="donor-home">←</button><div><span class="eyebrow">Nueva publicación</span><h2>¿Qué alimentos donarás?</h2></div></div>
+        <button class="photo-input"><span>＋</span><strong>Agregar fotografía</strong><small>Cámara o galería</small></button>
+        <div class="form-stack compact">
+          <label>Título<input value="Canasta de verduras frescas"></label>
+          <label>Categoría<select><option>Frutas y verduras</option></select></label>
+          <div class="split"><label>Cantidad<input value="12"></label><label>Unidad<select><option>kg</option></select></label></div>
+          <label>Fecha límite<input type="datetime-local" value="2026-11-03T19:00"></label>
+          <label>Distrito<select><option>Miraflores</option></select></label>
+          <label>Dirección de recojo<input value="Av. Arequipa 4210"></label>
+        </div>
+        <div class="notice">La aptitud del alimento es declarada por el donante. AlimentoRed no reemplaza una inspección sanitaria.</div>
+        <button class="primary wide" data-go="donor-home" data-toast="Donación publicada correctamente">Publicar donación</button>
+      </article>
+
+      <article class="screen" data-screen-panel="org-home">
+        <div class="home-head"><div><span class="eyebrow">Hola, Comedor Esperanza</span><h2>Encontrá alimentos disponibles</h2></div><button class="avatar" data-go="profile">CE</button></div>
+        <button class="search" data-go="donations">⌕ <span>Buscar alimentos o distrito</span></button>
+        <div class="urgent-card"><span class="eyebrow light">Disponibles hoy</span><strong>14 donaciones</strong><p>en distritos cercanos a tu organización</p><button data-go="donations">Explorar ahora →</button></div>
+        <div class="section-title"><h3>Recién publicadas</h3><button data-go="donations">Ver todas</button></div>
+        <div class="donation-card" data-go="detail"><div class="food-photo vegetables"></div><div><span class="badge available">Disponible</span><h4>Canasta de verduras</h4><p>12 kg · A 2,4 km</p><small>Hasta hoy, 7:00 p. m.</small></div></div>
+        <div class="donation-card"><div class="food-photo dairy"></div><div><span class="badge available">Disponible</span><h4>Leche y yogur</h4><p>18 unidades · A 3,1 km</p><small>Hasta mañana, 10:00 a. m.</small></div></div>
+        <nav class="bottom-nav"><button class="current">⌂<span>Donaciones</span></button><button data-go="history">▤<span>Reservas</span></button><button data-go="profile">○<span>Perfil</span></button></nav>
+      </article>
+
+      <article class="screen" data-screen-panel="donations">
+        <div class="page-head"><button class="back" data-go="org-home">←</button><div><span class="eyebrow">Explorar</span><h2>Donaciones disponibles</h2></div></div>
+        <div class="search-field">⌕ <input placeholder="Buscar alimentos o distrito"></div>
+        <div class="chips"><button class="active">Todas</button><button>Verduras</button><button>Panadería</button><button>Lácteos</button></div>
+        <p class="result-count">14 resultados · Ordenados por vencimiento</p>
+        <div class="donation-card large" data-go="detail"><div class="food-photo vegetables"></div><div><span class="badge available">Disponible hoy</span><h4>Canasta de verduras frescas</h4><p>12 kg · Miraflores</p><small>Lucía Mercado · Hasta 7:00 p. m.</small></div></div>
+        <div class="donation-card large"><div class="food-photo bread"></div><div><span class="badge available">Disponible</span><h4>Pan y bollería del día</h4><p>30 unidades · Surquillo</p><small>Panadería Santa Rosa · Hasta 8:30 p. m.</small></div></div>
+        <div class="donation-card large"><div class="food-photo fruit"></div><div><span class="badge available">Disponible</span><h4>Frutas maduras surtidas</h4><p>9 kg · San Borja</p><small>Mercado Central · Hasta mañana</small></div></div>
+      </article>
+
+      <article class="screen detail-screen" data-screen-panel="detail">
+        <div class="detail-photo vegetables"><button class="back floating" data-go="donations">←</button><span class="badge available floating-badge">Disponible hoy</span></div>
+        <div class="detail-content"><p class="eyebrow">Frutas y verduras</p><h2>Canasta de verduras frescas</h2><p class="muted">Tomates, zanahorias, zapallos y hojas verdes aptas para consumo. Algunas presentan detalles estéticos.</p>
+          <div class="facts"><div><span>Cantidad</span><strong>12 kg</strong></div><div><span>Recojo hasta</span><strong>Hoy, 7:00 p. m.</strong></div></div>
+          <div class="location"><span>⌖</span><div><strong>Miraflores</strong><p>Av. Arequipa 4210 · Puerta lateral</p></div></div>
+          <div class="donor"><span class="avatar">LM</span><div><strong>Lucía Mercado</strong><p>Donante desde 2025 · 8 entregas</p></div></div>
+          <div class="notice">Coordiná el recojo responsablemente. La aplicación no certifica la inocuidad ni realiza el transporte.</div>
+          <button class="primary wide" data-confirm>Reservar donación</button>
+        </div>
+      </article>
+
+      <article class="screen" data-screen-panel="history">
+        <div class="home-head"><div><span class="eyebrow">Actividad</span><h2>Historial e impacto</h2></div><button class="avatar" data-go="profile">LM</button></div>
+        <div class="stats-grid"><div><strong>8</strong><span>entregas</span></div><div><strong>42 kg</strong><span>recuperados</span></div><div><strong>30</strong><span>unidades</span></div></div>
+        <div class="chips"><button class="active">Todas</button><button>Entregadas</button><button>Reservadas</button></div>
+        <div class="timeline"><div class="event"><span class="event-icon success">✓</span><div><span class="badge delivered">Entregada</span><h4>Frutas maduras surtidas</h4><p>9 kg · Comedor Esperanza</p><small>28 oct. 2026</small></div></div><div class="event"><span class="event-icon">↗</span><div><span class="badge reserved">Reservada</span><h4>Canasta de verduras</h4><p>12 kg · Recojo pendiente</p><small>Hoy</small></div></div><div class="event"><span class="event-icon muted-icon">×</span><div><span class="badge cancelled">Cancelada</span><h4>Productos envasados</h4><p>6 unidades</p><small>20 oct. 2026</small></div></div></div>
+        <nav class="bottom-nav"><button data-go="donor-home">⌂<span>Inicio</span></button><button class="current">▤<span>Historial</span></button><button data-go="profile">○<span>Perfil</span></button></nav>
+      </article>
+
+      <article class="screen" data-screen-panel="profile">
+        <div class="page-head"><button class="back" data-go="donor-home">←</button><div><span class="eyebrow">Cuenta</span><h2>Mi perfil</h2></div></div>
+        <div class="profile-hero"><div class="avatar large-avatar">LM</div><h3>Lucía Mendoza</h3><span class="badge donor-badge">Donante</span><p>Miembro desde octubre de 2025</p></div>
+        <div class="form-stack"><label>Nombre<input value="Lucía Mendoza"></label><label>Teléfono<input value="987 654 321"></label><label>Correo electrónico<input value="lucia@ejemplo.pe" disabled></label><label>Distrito<select><option>Miraflores</option></select></label></div>
+        <button class="primary wide" data-toast="Perfil actualizado">Guardar cambios</button>
+        <button class="danger wide" data-go="welcome">Cerrar sesión</button>
+      </article>
+
+      <div class="modal-backdrop" hidden>
+        <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title"><div class="modal-icon">✓</div><h3 id="modal-title">¿Reservar esta donación?</h3><p>Te comprometés a coordinar y recoger los alimentos antes de hoy a las 7:00 p. m.</p><button class="primary wide" data-reserve>Confirmar reserva</button><button class="text-button" data-close>Volver</button></div>
+      </div>
+      <div class="toast" hidden></div>
+    </section>
+    <aside class="review-panel"><p class="eyebrow">Guía de revisión</p><h2 id="review-title">Acceso</h2><p id="review-description">Presenta la misión social y permite iniciar el recorrido sin saturar al usuario.</p><div class="review-meta"><span>Plataformas</span><strong>Android · Web adaptable</strong><span>Tipografía</span><strong>Manrope</strong><span>Base visual</span><strong>Verde social · Amarillo cálido</strong></div><p class="hint">Usá la navegación superior o los botones dentro del dispositivo.</p></aside>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
