@@ -1,0 +1,11 @@
+.dart_tool/
+.git/
+.idea/
+android/
+build/
+docs/
+mocks/
+test/
+web/
+*.iml
+*.log

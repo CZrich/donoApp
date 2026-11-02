@@ -1,5 +1,7 @@
 # Fase 5: Arquitectura y modelo de datos
 
+> **Actualización de implementación:** la persistencia administrada por Supabase descrita en esta fase fue reemplazada por PostgreSQL local en Docker y una API REST en Dart. Flutter accede a `API_BASE_URL`; nunca se conecta directamente a PostgreSQL. El despliegue vigente está definido en `docker-compose.yml`, el servidor en `backend/` y el esquema en `database/init/001_schema.sql`. Las secciones sobre Supabase se conservan como registro de la decisión original.
+
 ## Resultado de la fase
 
 AlimentoRed utilizará Flutter para Android y web, Supabase como backend y una arquitectura modular por funcionalidades. Supabase proporcionará autenticación, PostgreSQL, almacenamiento de imágenes y políticas de seguridad por fila. Las operaciones críticas de reserva y entrega se ejecutarán dentro de PostgreSQL para evitar duplicidades y manipulaciones desde el cliente.
