@@ -5,7 +5,7 @@ import 'user_repository.dart';
 class PostgresUserRepository implements UserRepository {
   const PostgresUserRepository(this.database);
 
-  final Session database;
+  final Pool database;
 
   @override
   Future<UserAccount?> findByEmail(String email) async {
@@ -29,15 +29,29 @@ class PostgresUserRepository implements UserRepository {
     required String passwordHash,
   }) async {
     try {
-      final result = await database.execute(
-        Sql.named('''
-          INSERT INTO accounts (email, password_hash)
-          VALUES (@email, @password_hash)
-          RETURNING id, email, password_hash
-        '''),
-        parameters: {'email': email, 'password_hash': passwordHash},
-      );
-      return _accountFrom(result.single.toColumnMap());
+      return await database.runTx((transaction) async {
+        final result = await transaction.execute(
+          Sql.named('''
+            INSERT INTO accounts (email, password_hash)
+            VALUES (@email, @password_hash)
+            RETURNING id, email, password_hash
+          '''),
+          parameters: {'email': email, 'password_hash': passwordHash},
+        );
+        final account = _accountFrom(result.single.toColumnMap());
+        await transaction.execute(
+          Sql.named('''
+            INSERT INTO profiles (id, email, password_hash)
+            VALUES (@id:uuid, @email, @password_hash)
+          '''),
+          parameters: {
+            'id': account.id,
+            'email': account.email,
+            'password_hash': account.passwordHash,
+          },
+        );
+        return account;
+      });
     } on UniqueViolationException {
       throw const DuplicateEmail();
     }

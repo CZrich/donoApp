@@ -28,6 +28,19 @@ void main() {
 
       expect(created.id, isNotEmpty);
       expect(await repository.findByEmail('person@example.com'), created);
+      final legacyProfile = await connection.execute(
+        Sql.named('''
+          SELECT email, password_hash, role, display_name, phone
+          FROM profiles
+          WHERE id = @id:uuid
+        '''),
+        parameters: {'id': created.id},
+      );
+      expect(legacyProfile.single[0], 'person@example.com');
+      expect(legacyProfile.single[1], 'hash');
+      expect(legacyProfile.single[2], isNull);
+      expect(legacyProfile.single[3], isNull);
+      expect(legacyProfile.single[4], isNull);
       await expectLater(
         repository.create(
           email: 'person@example.com',

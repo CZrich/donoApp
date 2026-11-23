@@ -14,6 +14,11 @@ BEGIN
     FROM profiles;
 
     ALTER TABLE profiles
+      ALTER COLUMN role DROP NOT NULL,
+      ALTER COLUMN display_name DROP NOT NULL,
+      ALTER COLUMN phone DROP NOT NULL;
+
+    ALTER TABLE profiles
       ADD CONSTRAINT profiles_account_fk
       FOREIGN KEY (id) REFERENCES accounts(id) ON DELETE CASCADE;
   END IF;

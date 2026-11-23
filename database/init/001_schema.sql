@@ -21,9 +21,11 @@ CREATE TABLE accounts (
 
 CREATE TABLE profiles (
   id uuid PRIMARY KEY REFERENCES accounts(id) ON DELETE CASCADE,
-  role user_role NOT NULL,
-  display_name text NOT NULL CHECK (btrim(display_name) <> ''),
-  phone text NOT NULL CHECK (btrim(phone) <> ''),
+  email text NOT NULL UNIQUE CHECK (btrim(email) <> ''),
+  password_hash text NOT NULL,
+  role user_role,
+  display_name text CHECK (display_name IS NULL OR btrim(display_name) <> ''),
+  phone text CHECK (phone IS NULL OR btrim(phone) <> ''),
   avatar_path text,
   created_at timestamptz NOT NULL DEFAULT now(),
   updated_at timestamptz NOT NULL DEFAULT now()

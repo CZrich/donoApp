@@ -30,6 +30,12 @@ jobs:
       - uses: dart-lang/setup-dart@v1
       - run: dart pub get
       - run: dart analyze
+      - name: Reject focused tests
+        run: |
+          if grep -R -nE '\bsolo_(test|group)[[:space:]]*\(' test; then
+            echo "Focused tests are forbidden in CI."
+            exit 1
+          fi
       - run: dart test
         env:
           TEST_DB_PORT: 5432
