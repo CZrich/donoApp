@@ -11,10 +11,16 @@ CREATE TYPE donation_status AS ENUM (
 );
 CREATE TYPE reservation_status AS ENUM ('active', 'cancelled', 'completed');
 
-CREATE TABLE profiles (
+CREATE TABLE accounts (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   email text NOT NULL UNIQUE CHECK (btrim(email) <> ''),
   password_hash text NOT NULL,
+  created_at timestamptz NOT NULL DEFAULT now(),
+  updated_at timestamptz NOT NULL DEFAULT now()
+);
+
+CREATE TABLE profiles (
+  id uuid PRIMARY KEY REFERENCES accounts(id) ON DELETE CASCADE,
   role user_role NOT NULL,
   display_name text NOT NULL CHECK (btrim(display_name) <> ''),
   phone text NOT NULL CHECK (btrim(phone) <> ''),

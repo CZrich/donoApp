@@ -6,6 +6,8 @@ import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart' as shelf_io;
 import 'package:shelf_router/shelf_router.dart';
 
+import 'package:alimentored_api/src/database/migrations.dart';
+
 Future<void> main() async {
   final pool = Pool.withEndpoints([
     Endpoint(
@@ -16,6 +18,12 @@ Future<void> main() async {
       password: Platform.environment['DB_PASSWORD'] ?? 'alimentored_dev',
     ),
   ], settings: const PoolSettings(sslMode: SslMode.disable));
+  await runMigrations(
+    pool,
+    Directory(
+      Platform.environment['MIGRATIONS_DIR'] ?? '../database/migrations',
+    ),
+  );
 
   final router = Router()
     ..get('/health', (Request request) async {

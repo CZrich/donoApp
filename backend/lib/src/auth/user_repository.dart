@@ -8,6 +8,16 @@ class UserAccount {
   final String id;
   final String email;
   final String passwordHash;
+
+  @override
+  bool operator ==(Object other) =>
+      other is UserAccount &&
+      other.id == id &&
+      other.email == email &&
+      other.passwordHash == passwordHash;
+
+  @override
+  int get hashCode => Object.hash(id, email, passwordHash);
 }
 
 abstract interface class UserRepository {

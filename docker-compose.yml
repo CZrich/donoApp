@@ -26,6 +26,7 @@ services:
       DB_NAME: ${POSTGRES_DB:-alimentored}
       DB_USER: ${POSTGRES_USER:-alimentored}
       DB_PASSWORD: ${POSTGRES_PASSWORD:-alimentored_dev}
+      MIGRATIONS_DIR: /app/migrations
       PORT: 8080
     ports:
       - "8080:8080"
