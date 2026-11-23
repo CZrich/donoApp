@@ -72,7 +72,12 @@ void main() {
         RETURNING id
       ''');
 
-      await runMigrations(connection, Directory('../database/migrations'));
+      final migrations = Directory('../database/migrations');
+      await Future.wait([
+        runMigrations(connection, migrations),
+        runMigrations(connection, migrations),
+      ]);
+      await runMigrations(connection, migrations);
 
       final repository = PostgresUserRepository(connection);
       final account = await repository.findByEmail('legacy@example.com');
@@ -88,6 +93,11 @@ void main() {
       expect(seeded, hasLength(1));
       expect(account?.passwordHash, 'legacy-hash');
       expect(references.single.toColumnMap()['count'], 1);
+      final legacyCredentials = await connection.execute(
+        'SELECT email, password_hash FROM profiles',
+      );
+      expect(legacyCredentials.single[0], 'legacy@example.com');
+      expect(legacyCredentials.single[1], 'legacy-hash');
     },
     skip: port == null
         ? 'Set TEST_DB_PORT to run PostgreSQL integration.'

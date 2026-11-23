@@ -23,14 +23,18 @@ Future<void> runMigrations(Pool database, Directory directory) async {
 
   for (final migration in migrations) {
     final name = migration.uri.pathSegments.last;
-    final applied = await database.execute(
-      Sql.named('SELECT 1 FROM schema_migrations WHERE name = @name'),
-      parameters: {'name': name},
-    );
-    if (applied.isNotEmpty) continue;
-
     final sql = await migration.readAsString();
     await database.runTx((transaction) async {
+      await transaction.execute(
+        Sql.named('SELECT pg_advisory_xact_lock(hashtext(@name))'),
+        parameters: {'name': name},
+      );
+      final applied = await transaction.execute(
+        Sql.named('SELECT 1 FROM schema_migrations WHERE name = @name'),
+        parameters: {'name': name},
+      );
+      if (applied.isNotEmpty) return;
+
       await transaction.execute(sql, queryMode: QueryMode.simple);
       await transaction.execute(
         Sql.named('INSERT INTO schema_migrations (name) VALUES (@name)'),

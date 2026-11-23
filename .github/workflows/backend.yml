@@ -1,0 +1,35 @@
+name: Backend
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_DB: alimentored
+          POSTGRES_USER: alimentored
+          POSTGRES_PASSWORD: alimentored_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U alimentored -d alimentored"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dart-lang/setup-dart@v1
+      - run: dart pub get
+      - run: dart analyze
+      - run: dart test
+        env:
+          TEST_DB_PORT: 5432

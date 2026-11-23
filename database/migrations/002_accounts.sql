@@ -14,10 +14,6 @@ BEGIN
     FROM profiles;
 
     ALTER TABLE profiles
-      DROP COLUMN email,
-      DROP COLUMN password_hash;
-
-    ALTER TABLE profiles
       ADD CONSTRAINT profiles_account_fk
       FOREIGN KEY (id) REFERENCES accounts(id) ON DELETE CASCADE;
   END IF;
