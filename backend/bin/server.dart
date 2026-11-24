@@ -6,6 +6,17 @@ import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart' as shelf_io;
 import 'package:shelf_router/shelf_router.dart';
 
+import 'package:alimentored_api/src/auth/auth_router.dart';
+import 'package:alimentored_api/src/auth/auth_service.dart';
+import 'package:alimentored_api/src/auth/password_hasher.dart';
+import 'package:alimentored_api/src/auth/postgres_user_repository.dart';
+import 'package:alimentored_api/src/auth/session_repository.dart';
+import 'package:alimentored_api/src/auth/token_service.dart';
+import 'package:alimentored_api/src/database/migrations.dart';
+
+import 'package:alimentored_api/src/profile/postgres_profile_repository.dart';
+import 'package:alimentored_api/src/profile/profile_router.dart';
+
 Future<void> main() async {
   final pool = Pool.withEndpoints([
     Endpoint(
@@ -16,8 +27,40 @@ Future<void> main() async {
       password: Platform.environment['DB_PASSWORD'] ?? 'alimentored_dev',
     ),
   ], settings: const PoolSettings(sslMode: SslMode.disable));
+  await runMigrations(
+    pool,
+    Directory(
+      Platform.environment['MIGRATIONS_DIR'] ?? '../database/migrations',
+    ),
+  );
+
+  final userRepository = PostgresUserRepository(pool);
+  final sessionRepository = PostgresSessionRepository(pool);
+  final tokenService = TokenService(
+    secret: Platform.environment['AUTH_TOKEN_SECRET'],
+    accessTokenDuration: Duration(
+      minutes: int.parse(Platform.environment['AUTH_ACCESS_TOKEN_MINUTES'] ?? '15'),
+    ),
+  );
+  final authService = AuthService(
+    users: userRepository,
+    passwords: const PasswordHasher(cost: 12),
+    sessions: sessionRepository,
+    tokens: tokenService,
+  );
+  final authRouter = createAuthRouter(
+    authService: authService,
+    tokenService: tokenService,
+  );
+  final profileRepository = PostgresProfileRepository(pool);
+  final profileRouter = createProfileRouter(
+    profileRepository: profileRepository,
+    tokenService: tokenService,
+  );
 
   final router = Router()
+    ..mount('/api/auth', authRouter.call)
+    ..mount('/api/profile', profileRouter.call)
     ..get('/health', (Request request) async {
       try {
         await pool.execute('SELECT 1');

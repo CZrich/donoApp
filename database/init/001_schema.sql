@@ -11,17 +11,36 @@ CREATE TYPE donation_status AS ENUM (
 );
 CREATE TYPE reservation_status AS ENUM ('active', 'cancelled', 'completed');
 
-CREATE TABLE profiles (
+CREATE TABLE accounts (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   email text NOT NULL UNIQUE CHECK (btrim(email) <> ''),
   password_hash text NOT NULL,
-  role user_role NOT NULL,
-  display_name text NOT NULL CHECK (btrim(display_name) <> ''),
-  phone text NOT NULL CHECK (btrim(phone) <> ''),
+  created_at timestamptz NOT NULL DEFAULT now(),
+  updated_at timestamptz NOT NULL DEFAULT now()
+);
+
+CREATE TABLE profiles (
+  id uuid PRIMARY KEY REFERENCES accounts(id) ON DELETE CASCADE,
+  email text NOT NULL UNIQUE CHECK (btrim(email) <> ''),
+  password_hash text NOT NULL,
+  role user_role,
+  display_name text CHECK (display_name IS NULL OR btrim(display_name) <> ''),
+  phone text CHECK (phone IS NULL OR btrim(phone) <> ''),
   avatar_path text,
   created_at timestamptz NOT NULL DEFAULT now(),
   updated_at timestamptz NOT NULL DEFAULT now()
 );
+
+CREATE TABLE sessions (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  account_id uuid NOT NULL REFERENCES accounts(id) ON DELETE CASCADE,
+  refresh_token_hash text NOT NULL UNIQUE,
+  expires_at timestamptz NOT NULL,
+  created_at timestamptz NOT NULL DEFAULT now()
+);
+
+CREATE INDEX sessions_account_idx ON sessions(account_id);
+CREATE INDEX sessions_expires_idx ON sessions(expires_at);
 
 CREATE TABLE organizations (
   profile_id uuid PRIMARY KEY REFERENCES profiles(id) ON DELETE RESTRICT,

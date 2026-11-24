@@ -203,6 +203,183 @@ Cada unidad incluirá su interfaz, lógica, persistencia, manejo de errores y pr
 
 Para proteger el plazo, la primera versión no incluirá pagos, chat en tiempo real, optimización automática de rutas, seguimiento GPS continuo ni verificación gubernamental de identidades. Estas funciones podrán presentarse como mejoras futuras.
 
+## Lista maestra de validación del MVP
+
+Esta sección define cuándo la aplicación puede considerarse funcional y entregable. Un requisito solo se marca como completado cuando su interfaz, API, persistencia, manejo de errores y pruebas funcionan sin depender de datos simulados.
+
+### RF-01. Registro y autenticación
+
+- [ ] Una persona puede registrarse con nombre, correo electrónico y contraseña.
+- [x] El correo se normaliza y no puede registrarse dos veces.
+- [x] La contraseña se almacena mediante un algoritmo de hash seguro; nunca en texto plano.
+- [x] Los campos muestran validaciones comprensibles antes de enviar el formulario.
+- [x] Una persona registrada puede iniciar sesión con correo y contraseña.
+- [x] Las credenciales incorrectas muestran un mensaje seguro que no revela datos privados.
+- [x] La sesión se conserva al recargar o reabrir la aplicación.
+- [ ] El usuario puede cerrar sesión desde su perfil.
+- [x] Las rutas privadas rechazan solicitudes sin una sesión válida.
+- [x] El formulario de acceso permite mostrar u ocultar la contraseña.
+- [ ] Existe un flujo documentado para recuperar o restablecer la contraseña.
+
+**Validación:** pruebas de registro exitoso, correo duplicado, datos inválidos, acceso correcto, acceso rechazado, persistencia de sesión, cierre de sesión y acceso no autorizado.
+
+### RF-02. Perfil de usuario
+
+- [ ] El usuario autenticado puede consultar su perfil real.
+- [ ] Puede modificar nombre, teléfono, ubicación y fotografía.
+- [ ] El correo y el rol no pueden cambiarse accidentalmente desde el formulario general.
+- [ ] La imagen anterior se conserva si no se selecciona una nueva.
+- [ ] Los cambios persisten en PostgreSQL y se reflejan al volver a ingresar.
+- [ ] La pantalla presenta estados de carga, éxito, vacío y error.
+
+**Validación:** consultar, editar, recargar y verificar el perfil; rechazar campos inválidos y acceso de otro usuario.
+
+### RF-03. Organizaciones
+
+- [ ] Un usuario autorizado puede registrar una organización.
+- [ ] El formulario solicita nombre, descripción, tipo, teléfono, correo, dirección, ubicación, horario y fotografía o logotipo.
+- [ ] Los campos obligatorios y formatos se validan en frontend y backend.
+- [ ] La organización queda asociada a su creador o responsable.
+- [ ] El responsable puede consultar y editar su organización.
+- [ ] Un usuario no puede editar ni eliminar organizaciones ajenas.
+- [ ] Cualquier usuario puede consultar el listado y detalle de organizaciones activas.
+- [ ] El listado ofrece búsqueda y estados de carga, vacío y error.
+- [ ] Las acciones sensibles quedan protegidas por autorización del backend.
+
+**Validación:** crear, listar, buscar, consultar detalle, editar como responsable y rechazar edición ajena.
+
+### RF-04. Publicación de donaciones
+
+- [ ] Un donante autenticado puede crear una donación.
+- [ ] El formulario solicita título, descripción, categoría, cantidad, unidad, fecha de vencimiento, fecha y horario de retiro, ubicación e imágenes.
+- [ ] La cantidad debe ser positiva y las fechas deben ser coherentes.
+- [ ] La donación se crea inicialmente en estado `available`.
+- [ ] El propietario puede editar o cancelar una donación disponible.
+- [ ] Un usuario no puede modificar donaciones ajenas.
+- [ ] El propietario puede consultar su historial de publicaciones.
+- [ ] El listado público admite búsqueda y filtros por categoría, ubicación y estado.
+- [ ] El detalle muestra la información necesaria para coordinar el retiro.
+
+**Validación:** crear, consultar, filtrar, editar y cancelar; rechazar datos inválidos y modificaciones ajenas.
+
+### RF-05. Reserva y entrega
+
+- [ ] El responsable de una organización puede reservar una donación disponible.
+- [ ] Una donación no puede tener dos reservas activas.
+- [ ] La reserva registra organización, responsable, fecha y estado.
+- [ ] El donante puede aceptar o rechazar la solicitud cuando corresponda.
+- [ ] Las partes pueden cancelar según las reglas de negocio documentadas.
+- [ ] El flujo controla las transiciones `available`, `reserved`, `delivered`, `cancelled` y `expired`.
+- [ ] La entrega requiere confirmación y queda registrada.
+- [ ] Donante y organización pueden consultar su historial.
+- [ ] Las operaciones concurrentes no producen reservas duplicadas.
+
+**Validación:** recorrido completo publicación → reserva → confirmación → entrega, más cancelación, expiración y reserva concurrente.
+
+### RF-06. Imágenes con Cloudinary
+
+- [ ] Las imágenes de perfil, organizaciones y donaciones se almacenan en Cloudinary.
+- [ ] Ningún secreto de Cloudinary se incorpora al código Flutter ni al repositorio.
+- [ ] El backend controla la firma o el mecanismo seguro de carga.
+- [ ] Se validan tipo MIME, extensión, tamaño máximo y cantidad de archivos.
+- [ ] La aplicación presenta progreso, reintento y error de carga.
+- [ ] PostgreSQL conserva únicamente identificadores y URLs necesarias.
+- [ ] La sustitución o eliminación de imágenes limpia los recursos anteriores cuando corresponda.
+- [ ] Existe una imagen predeterminada cuando no se ha cargado contenido.
+
+**Variables pendientes de configurar en `.env`:**
+
+```dotenv
+CLOUDINARY_CLOUD_NAME=
+CLOUDINARY_API_KEY=
+CLOUDINARY_API_SECRET=
+CLOUDINARY_UPLOAD_FOLDER=alimentored
+```
+
+El archivo `.env.example` deberá contener estas claves sin valores secretos. La aplicación debe fallar con un mensaje claro si falta una variable obligatoria.
+
+### RF-07. Experiencia y accesibilidad
+
+- [ ] La navegación cambia según el estado de autenticación y el rol.
+- [ ] Todas las acciones presentan confirmación visual y evitan envíos duplicados.
+- [ ] Los formularios preservan la información cuando una solicitud recuperable falla.
+- [ ] La interfaz es adaptable a Android y web.
+- [ ] Los controles tienen etiquetas accesibles, contraste legible y áreas táctiles adecuadas.
+- [ ] Fechas, cantidades y mensajes usan un formato consistente.
+- [ ] Los errores técnicos no se muestran directamente al usuario.
+- [ ] Las pantallas críticas incluyen carga, vacío, error, éxito y reintento.
+
+### RNF-01. Seguridad
+
+- [ ] Contraseñas protegidas con Argon2id o bcrypt y parámetros documentados.
+- [ ] Sesiones mediante tokens de corta duración y renovación segura, o una estrategia equivalente documentada.
+- [ ] Validación y autorización obligatorias en el backend.
+- [ ] Consultas SQL parametrizadas y restricciones de integridad en la base de datos.
+- [ ] Secretos fuera del repositorio y archivos `.env` ignorados por Git.
+- [ ] CORS, límites de carga y rate limiting configurados para el entorno de despliegue.
+- [ ] Logs sin contraseñas, tokens ni información privada innecesaria.
+
+### RNF-02. Calidad y operación
+
+- [ ] `flutter analyze` finaliza sin errores.
+- [ ] Las pruebas unitarias y de widgets finalizan correctamente.
+- [ ] Las pruebas del backend finalizan correctamente.
+- [ ] Existe una prueba de integración para cada flujo crítico.
+- [ ] La API expone un endpoint de salud que verifica su conexión con PostgreSQL.
+- [ ] Las migraciones o scripts de base de datos pueden ejecutarse desde cero.
+- [ ] Docker Compose levanta API y base de datos con una sola instrucción documentada.
+- [ ] README explica configuración, variables, ejecución, pruebas y problemas frecuentes.
+- [ ] La aplicación se verifica en navegador y en un dispositivo o emulador Android.
+- [ ] No quedan datos simulados en los flujos obligatorios.
+
+## Configuración prevista
+
+El repositorio deberá mantener una plantilla `.env.example` con nombres de variables y valores locales no sensibles. Como mínimo:
+
+```dotenv
+POSTGRES_DB=alimentored
+POSTGRES_USER=alimentored
+POSTGRES_PASSWORD=
+DB_HOST=database
+DB_PORT=5432
+DB_NAME=alimentored
+DB_USER=alimentored
+DB_PASSWORD=
+PORT=8080
+AUTH_TOKEN_SECRET=
+AUTH_ACCESS_TOKEN_MINUTES=15
+CLOUDINARY_CLOUD_NAME=
+CLOUDINARY_API_KEY=
+CLOUDINARY_API_SECRET=
+CLOUDINARY_UPLOAD_FOLDER=alimentored
+```
+
+Los valores reales se configuran únicamente en `.env` local o en el gestor de secretos del despliegue.
+
+## Decisiones pendientes antes de implementar
+
+- [x] Cualquier usuario autenticado puede crear una organización; su creador queda registrado como responsable y solo las personas autorizadas pueden administrarla.
+- [ ] Confirmar si una donación se reserva inmediatamente o si el donante debe aprobar la solicitud.
+- [ ] Definir si el correo debe verificarse en el MVP.
+- [ ] Definir el proveedor de correo para recuperación de contraseña.
+- [ ] Definir límites de tamaño y cantidad de imágenes.
+- [ ] Definir si ubicación será dirección escrita, coordenadas del dispositivo o ambas.
+- [ ] Confirmar política de eliminación de cuentas, organizaciones y donaciones.
+
+## Definición de aplicación validada
+
+La aplicación se considera validada únicamente cuando:
+
+1. Todos los requisitos obligatorios anteriores están marcados y respaldados por evidencia.
+2. Un usuario nuevo completa registro → acceso → perfil sin intervención técnica.
+3. Un responsable crea y administra una organización.
+4. Un donante publica una donación con imágenes reales.
+5. Una organización completa reserva → coordinación → entrega.
+6. Los dos roles consultan historiales persistidos.
+7. Los controles de autorización impiden modificar recursos ajenos.
+8. Las pruebas automatizadas, análisis estático y compilaciones Android/web finalizan correctamente.
+9. La instalación desde cero funciona siguiendo únicamente el README.
+
 ## Estado actual
 
 - [x] Tema social seleccionado.
@@ -215,8 +392,11 @@ Para proteger el plazo, la primera versión no incluirá pagos, chat en tiempo r
 - [x] Fase 5: arquitectura y modelo de datos.
 - [x] Fase 6: wireframes y mockups.
 - [ ] Fase 7: preparación del proyecto Flutter — web verificada; Android bloqueado por `cmdline-tools`.
-- [ ] Fase actual: completar verificación de plataformas.
+- [ ] Fase actual: completar verificación de plataformas y auditar la implementación real contra la lista maestra del MVP.
 
 ## Siguiente paso
 
-Instalar Android SDK Command-line Tools, verificar la compilación Android y cerrar la **Fase 7** antes de comenzar la **Fase 8, Unidad 1**.
+1. Resolver las decisiones pendientes de producto.
+2. Auditar frontend, backend y base de datos contra la lista maestra.
+3. Instalar Android SDK Command-line Tools y verificar la compilación Android.
+4. Implementar la **Fase 8** en unidades verticales, comenzando por registro y autenticación.
