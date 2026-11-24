@@ -210,15 +210,15 @@ Esta sección define cuándo la aplicación puede considerarse funcional y entre
 ### RF-01. Registro y autenticación
 
 - [ ] Una persona puede registrarse con nombre, correo electrónico y contraseña.
-- [ ] El correo se normaliza y no puede registrarse dos veces.
-- [ ] La contraseña se almacena mediante un algoritmo de hash seguro; nunca en texto plano.
-- [ ] Los campos muestran validaciones comprensibles antes de enviar el formulario.
-- [ ] Una persona registrada puede iniciar sesión con correo y contraseña.
-- [ ] Las credenciales incorrectas muestran un mensaje seguro que no revela datos privados.
-- [ ] La sesión se conserva al recargar o reabrir la aplicación.
+- [x] El correo se normaliza y no puede registrarse dos veces.
+- [x] La contraseña se almacena mediante un algoritmo de hash seguro; nunca en texto plano.
+- [x] Los campos muestran validaciones comprensibles antes de enviar el formulario.
+- [x] Una persona registrada puede iniciar sesión con correo y contraseña.
+- [x] Las credenciales incorrectas muestran un mensaje seguro que no revela datos privados.
+- [x] La sesión se conserva al recargar o reabrir la aplicación.
 - [ ] El usuario puede cerrar sesión desde su perfil.
-- [ ] Las rutas privadas rechazan solicitudes sin una sesión válida.
-- [ ] El formulario de acceso permite mostrar u ocultar la contraseña.
+- [x] Las rutas privadas rechazan solicitudes sin una sesión válida.
+- [x] El formulario de acceso permite mostrar u ocultar la contraseña.
 - [ ] Existe un flujo documentado para recuperar o restablecer la contraseña.
 
 **Validación:** pruebas de registro exitoso, correo duplicado, datos inválidos, acceso correcto, acceso rechazado, persistencia de sesión, cierre de sesión y acceso no autorizado.

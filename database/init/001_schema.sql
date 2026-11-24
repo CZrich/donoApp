@@ -31,6 +31,17 @@ CREATE TABLE profiles (
   updated_at timestamptz NOT NULL DEFAULT now()
 );
 
+CREATE TABLE sessions (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  account_id uuid NOT NULL REFERENCES accounts(id) ON DELETE CASCADE,
+  refresh_token_hash text NOT NULL UNIQUE,
+  expires_at timestamptz NOT NULL,
+  created_at timestamptz NOT NULL DEFAULT now()
+);
+
+CREATE INDEX sessions_account_idx ON sessions(account_id);
+CREATE INDEX sessions_expires_idx ON sessions(expires_at);
+
 CREATE TABLE organizations (
   profile_id uuid PRIMARY KEY REFERENCES profiles(id) ON DELETE RESTRICT,
   organization_name text NOT NULL CHECK (btrim(organization_name) <> ''),

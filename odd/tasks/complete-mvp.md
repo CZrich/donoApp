@@ -24,7 +24,7 @@ S8. The application must remain runnable with Docker Compose and support Flutter
 
 ## Tasks
 
-- [ ] T1 — S1: Implement identity schema, secure email/password registration, login, session renewal/logout, `/me`, Flutter session persistence, guarded navigation, and tests. Route: inline; Risk: item 2 (authentication and credentials); Commit: pending.
+- [x] T1 — S1: Implement identity schema, secure email/password registration, login, session renewal/logout, `/me`, Flutter session persistence, guarded navigation, and tests. Route: inline; Risk: item 2 (authentication and credentials); Commit: pending.
 - [ ] T2 — S3: Implement owner-scoped profile API and editable profile UI with validation and tests. Route: inline; Risk: item 2 (authorization); Commit: pending.
 - [ ] T3 — S2, S4: Remodel organizations with independent ownership/membership, public read endpoints, authorized CRUD, Flutter forms/list/detail, and tests. Route: inline; Risk: items 1 and 2 (persisted schema and authorization); Commit: pending.
 - [ ] T4 — S5: Implement authenticated donation CRUD, ownership, listing/detail/filtering, Flutter publication flows, and tests. Route: inline; Risk: item 2 (authorization); Commit: pending.
@@ -53,3 +53,6 @@ L8. 2026-11-23 — T1 PostgreSQL persistence completed: credentials now live in 
 L9. 2026-11-23 — Follow-up hardening preserved legacy credential columns for rolling-deployment and rollback compatibility, serialized concurrent migration starts with a transaction-scoped PostgreSQL advisory lock, exercised concurrent and repeated migration startup, and added CI-backed PostgreSQL integration execution. The candidate review was declined after its OpenCode refuter transport failed; corroborated findings were corrected under ordinary repository policy.
 
 L10. 2026-11-23 — Rollback compatibility now dual-writes new accounts into incomplete legacy profile rows without assigning a role or fabricated profile metadata; fresh and upgraded schemas allow those fields to remain incomplete until the profile flow. CI rejects committed focused Dart tests before running the PostgreSQL-backed suite.
+ 
+L11. 2026-11-23 — T1 completed end-to-end: implemented PostgreSQL hashed sessions migration (003_sessions.sql), JWT TokenService, AuthService session operations with token rotation, Shelf auth endpoints (/register, /login, /refresh, /logout, /me), Flutter SharedPreferences session storage, Riverpod AuthController, responsive LoginPage and RegisterPage with strict client validation, updated WelcomePage, and GoRouter guarded navigation. Evidence: 27 backend tests passed, 18 Flutter tests passed, and both flutter analyze and dart analyze passed with 0 issues.
+

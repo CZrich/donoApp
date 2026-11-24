@@ -64,4 +64,12 @@ docker compose down
 
 ## Estado
 
-La aplicación ya cuenta con infraestructura local de persistencia, endpoint de salud y listado de donaciones. Las pantallas todavía deben integrarse con los endpoints de cada caso de uso.
+La arquitectura vigente es Flutter → API REST en Dart → PostgreSQL en Docker. Hay código de autenticación (registro, acceso, sesión y cierre) y consulta/actualización de perfil; su presencia no demuestra por sí sola el flujo integrado. Inicio por rol, publicación, listado e historial todavía contienen pantallas provisionales. El MVP no está completo y quedan validaciones de permisos, integración y ejecución multiplataforma. Las referencias a Supabase en documentos previos son históricas.
+
+## Artículo y diseño
+
+- Repositorio: https://github.com/CZrich/donoApp.git
+- [Artículo académico en PDF](docs/article/alimentored-articulo.pdf) — borrador pendiente de datos de autoría.
+- [Fuente editable HTML](docs/article/article.html) y [reconstrucción y limitaciones](docs/article/README.md).
+- [Galería complementaria](docs/article/gallery.html) — prototipos con datos ilustrativos, no capturas de la aplicación ni evidencia de impacto.
+- [Prototipo original](mocks/mockups/index.html) y [comentarios de cambios](docs/article/CHANGELOG.md).

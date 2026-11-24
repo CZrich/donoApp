@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:alimentored_api/src/auth/postgres_user_repository.dart';
+import 'package:alimentored_api/src/auth/session_repository.dart';
 import 'package:alimentored_api/src/auth/user_repository.dart';
 import 'package:alimentored_api/src/database/migrations.dart';
 import 'package:postgres/postgres.dart';
@@ -28,6 +29,18 @@ void main() {
 
       expect(created.id, isNotEmpty);
       expect(await repository.findByEmail('person@example.com'), created);
+      expect(await repository.findById(created.id), created);
+
+      final sessionRepo = PostgresSessionRepository(connection);
+      final session = await sessionRepo.createSession(
+        accountId: created.id,
+        refreshTokenHash: 'hash-abc-123',
+        expiresAt: DateTime.now().toUtc().add(const Duration(days: 1)),
+      );
+      expect(session.accountId, created.id);
+      expect(await sessionRepo.findValidSession('hash-abc-123'), session);
+      await sessionRepo.deleteSession('hash-abc-123');
+      expect(await sessionRepo.findValidSession('hash-abc-123'), isNull);
       final legacyProfile = await connection.execute(
         Sql.named('''
           SELECT email, password_hash, role, display_name, phone

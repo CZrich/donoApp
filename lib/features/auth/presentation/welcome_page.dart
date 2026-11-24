@@ -75,7 +75,36 @@ class WelcomePage extends StatelessWidget {
                             style: Theme.of(context).textTheme.bodyMedium,
                           ),
                           const SizedBox(height: 20),
-                          FilledButton(
+                          FilledButton.icon(
+                            key: const Key('welcome_login_button'),
+                            icon: const Icon(Icons.login),
+                            label: const Text('Iniciar sesión'),
+                            onPressed: () => context.go('/login'),
+                          ),
+                          const SizedBox(height: 10),
+                          OutlinedButton.icon(
+                            key: const Key('welcome_register_button'),
+                            icon: const Icon(Icons.person_add_outlined),
+                            label: const Text('Crear una cuenta'),
+                            onPressed: () => context.go('/register'),
+                          ),
+                          const Padding(
+                            padding: EdgeInsets.symmetric(vertical: 14),
+                            child: Row(
+                              children: [
+                                Expanded(child: Divider()),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 8),
+                                  child: Text(
+                                    'o explora sin cuenta',
+                                    style: TextStyle(color: Colors.black45, fontSize: 12),
+                                  ),
+                                ),
+                                Expanded(child: Divider()),
+                              ],
+                            ),
+                          ),
+                          OutlinedButton(
                             onPressed: () => context.go('/donor'),
                             child: const Text('Vista de donante'),
                           ),
